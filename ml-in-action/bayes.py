@@ -45,7 +45,7 @@ def bagOfWords2Vec(vocabList, inputSet):
 
 	for word in inputSet:
 		if word in vocabList:
-			returnVect[vocabList.index(word)] += 1
+			returnVec[vocabList.index(word)] += 1
 
 	return returnVec
 
@@ -115,7 +115,7 @@ def textParse(bigString):
 def spamTest():
 	docList = []
 	classList = []
-	fulltext = []
+	fullText = []
 
 	# loop through and read the emails in the email folder
 	for i in range(1,26):
@@ -129,13 +129,14 @@ def spamTest():
 		fullText.extend(wordList)
 		classList.append(0) # add class labale as 0='not spam'
 
-	vocabList = creatVocabList(docList)
-	trainingSet = range(50) # 50 emails total
+	vocabList = createVocabList(docList)
+	#trainingSet = range(50) 
+	trainingSet = list(range(50)) # 50 emails total
 	testSet = []
 
 	for i in range(10): # choose 10 of the 50 for the test set
 		# choose a random example, add it to test set, remove from training set
-		randIndex = int(np.random.uniform(0, len(traingingSet)))
+		randIndex = int(np.random.uniform(0, len(trainingSet)))
 		testSet.append(trainingSet[randIndex])
 		del(trainingSet[randIndex])
 
@@ -143,17 +144,112 @@ def spamTest():
 	trainClasses = []
 
 	for docIndex in trainingSet:
-		trainMat.append(bagOfWords2Vec(vocabList, docList[docInded]))
+		trainMat.append(bagOfWords2Vec(vocabList, docList[docIndex]))
 		trainClasses.append(classList[docIndex])
 
-	p0v, p1V, pSpam = trainNBO(np.array(trainMat), np.array(trainClasses))
+	p0V,p1V, pSpam = trainNBO(np.array(trainMat), np.array(trainClasses))
 
 	errorCount = 0
 
 	for docIndex in testSet:
-		wordVector = bagOfWords2Vec(covabList, docList[docIndex])
+		wordVector = bagOfWords2Vec(vocabList, docList[docIndex])
 
 		if classifyNB(np.array(wordVector), p0V, p1V, pSpam) != classList[docIndex]:
 			errorCount += 1
 
-	print('the error rate is: ', float(errorCOunt/len(testSet)))
+	print('the error rate is:', float(errorCount/len(testSet)))
+
+# RSS parsing using feedparser library
+# trying to identify the origin of a post based on words used
+# ex: comparing craigslist postings from newyYork and San Fransisco
+
+#Load feeds via --> ny = feedparser.parse('http://craigslist.org/stp/index.rss')
+
+import feedparser
+import operator
+
+# find the most common words, like 'and','the','is', and remove them
+def calcMostFreq(vocabList, fullText):
+	freqDict = {}
+	for token in vocabList:
+		freqDict[token] = fullText.count(token)
+
+	sortedFreq = sorted(freqDict.items(), key=operator.itemgetter(1), reverse=True)
+	
+	return sortedFreq[:30] # return only the less frequent words
+
+def localWords(feed1, feed0):
+	docList = []
+	classList = []
+	fullText = []
+
+	minLen = min(len(feed1['entries']), len(feed0['entries']))
+
+	# iterate through both feeds and add appropriate class labels, 1 or 0
+	for i in range(minLen):
+		wordList = textParse(feed1['entries'][i]['summary'])
+		docList.append(wordList)
+		fullText.extend(wordList)
+		classList.append(1)
+
+		wordList = textParse(feed0['entries'][i]['summary'])
+		docList.append(wordList)
+		fullText.extend(wordList)
+		classList.append(0)
+
+	vocabList = createVocabList(docList)
+	top30Words = calcMostFreq(vocabList, fullText)
+
+	for pairW in top30Words:
+		if pairW[0] in vocabList:
+			vocabList.remove(pairW[0])
+
+	#trainingSet = range(2*minLen)
+	trainingSet = list(range(2*minLen))
+	testSet = []
+
+	for i in range(20): # choose 20 datapoints to move to the test set
+		randIndex = int(np.random.uniform(0, len(trainingSet)))
+		testSet.append(trainingSet[randIndex])
+		del(trainingSet[randIndex])
+
+	trainMat = []
+	trainClasses = []
+
+	for docIndex in trainingSet:
+		trainMat.append(bagOfWords2Vec(vocabList, docList[docIndex]))
+		trainClasses.append(classList[docIndex])
+
+	p0V, p1V, pSpam = trainNBO(np.array(trainMat), np.array(trainClasses))
+
+	errorCount = 0
+	for docIndex in testSet:
+		wordVector = bagOfWords2Vec(vocabList, docList[docIndex])
+
+		if classifyNB(np.array(wordVector), p0V, p1V, pSpam) != classList[docIndex]:
+			errorCount += 1
+
+	print('the error rate is:', float(errorCount/len(testSet)))
+	return vocabList, p0V, p1V
+
+# printing the most common words from the above RSS feeds
+
+def getTopWords(ny, sf):
+	vocabList, p0V, p1V = localWords(ny, sf)
+	topNY = []
+	topSF = []
+
+	for i in range(len(p0V)):
+		if p0V[i] > -6.0 : topSF.append((vocabList[i], p0V[i]))
+		if p1V[i] > -6.0 : topNY.append((vocabList[i], p1V[i]))
+
+	sortedSF = sorted(topSF, key=lambda pair: pair[1], reverse=True)
+	print('SF--SF--SF--SF--SF--SF--SF--SF--SF--SF--SF--SF--SF')
+
+	for item in sortedSF:
+		print(item[0])
+
+	sortedNY = sorted(topNY, key=lambda pair: pair[1], reverse=True)
+	print('NY--Ny--Ny--Ny--Ny--Ny--Ny--Ny--Ny--Ny--Ny--Ny--Ny')
+	for item in sortedNY:
+		print(item[0])
