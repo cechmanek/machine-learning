@@ -368,7 +368,18 @@ def loadImages(dirName):
 
 		trainingMat[i,:] = img2vector('%s/%s' % (dirName, fileNameStr))
 
-	return trainingmat, hwLabels
+	return trainingMat, hwLabels
+
+def img2vector(fileName):
+	returnVect = np.zeros((1,1024))
+	fr = open(fileName)
+
+	for i in range(32):
+		lineStr = fr.readline()
+		for j in range(32):
+			returnVect[0, 32*i+j] = int(lineStr[j])
+
+	return returnVect
 
 def testDigits(kTup = ('rbf', 10)):
 	dataArr, labelArr = loadImages('trainingDigits')
@@ -389,7 +400,7 @@ def testDigits(kTup = ('rbf', 10)):
 		predict = kernelEval.T * np.multiply(labelSV, alphas[svInd]) + b
 		
 		if np.sign(predict) != np.sign(labelArr[i]):
-			errorCOunt += 1
+			errorCount += 1
 
 	print("the training error rate is %f " % float(errorCount/m))
 
@@ -406,7 +417,7 @@ def testDigits(kTup = ('rbf', 10)):
 		predict = kernelEval.T * np.multiply(labelSV, alphas[svInd]) + b
 		
 		if np.sign(predict) != np.sign(labelArr[i]):
-			errorCOunt += 1
+			errorCount += 1
 
 	print("the test error rate is %f " % float(errorCount/m))
 
