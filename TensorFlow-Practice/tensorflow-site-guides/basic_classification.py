@@ -119,6 +119,8 @@ num_images = num_rows*num_cols
 plt.figure(figsize=(2*2*num_cols, 2*num_rows))
 for i in range(num_images):
   plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plt.xticks([]) # don't show x-y scales
+  plt.yticks([])
   plot_image(predictions[i], test_labels[i], test_images[i])
   plt.subplot(num_rows, 2*num_cols, 2*i+2)
   plot_value_array(predictions[i], test_labels[i])
@@ -130,10 +132,13 @@ plt.show()
 # add it to a list:
 
 # Add the image to a batch where it's the only member.
-img = (np.expand_dims(img,0))
+image = (np.expand_dims(test_images[0],0))
 
-print(img.shape) #(1, 28, 28)
+print(image.shape) #(1, 28, 28)
 
 #Now predict the image:
-predictions_single = model.predict(img)
+predictions_single = model.predict(image)
 print(predictions_single)
+
+plot_value_array(predictions_single[0], test_labels[0])
+_ = plt.xticks(range(10), class_names, rotation=45)
