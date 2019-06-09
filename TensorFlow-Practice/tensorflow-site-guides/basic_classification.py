@@ -11,10 +11,13 @@ import matplotlib.pyplot as plt
 print("TensorFlow version:", tf.__version__)
 
 # import the fashion data set fron MNIST
-fashion_mnist = keras.datasets.fashion_mnist
-
-# load the data as numpy arrays
-(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+if tf.__version__ == "1.5.0":
+	print("this tensorflow version doesn't have the fashion data set. Exiting")
+	exit()
+else:
+	fashion_mnist = keras.datasets.fashion_mnist
+	# load the data as numpy arrays
+	(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
 
 ##images are 28x28 grayscale, labels are 0 through 9, corresponding to clothing type
 class_names = ['T-shirt/top',
@@ -126,6 +129,8 @@ for i in range(num_images):
   plot_value_array(predictions[i], test_labels[i])
 plt.show()
 
+# we can use the trained model to get a prediction for a single image
+img = test_images[0]
 
 # tf.keras models are optimized to make predictions on a batch, or collection,
 # of examples at once. So even though we're using a single image, we need to 
