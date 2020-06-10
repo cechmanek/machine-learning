@@ -32,13 +32,11 @@ try:
 except FileExistsError:
   pass
 
-
 train_cats_dir = os.path.join(train_dir, 'cats')
 try:
   os.mkdir(train_cats_dir)
 except FileExistsError:
   pass
-
 
 train_dogs_dir = os.path.join(train_dir, 'dogs')
 try:
@@ -46,13 +44,11 @@ try:
 except FileExistsError:
   pass
 
-
 validation_cats_dir = os.path.join(validation_dir, 'cats')
 try:
   os.mkdir(validation_cats_dir)
 except FileExistsError:
   pass
-
 
 validation_dogs_dir = os.path.join(validation_dir, 'dogs')
 try:
@@ -60,20 +56,17 @@ try:
 except FileExistsError:
   pass
 
-
 test_cats_dir = os.path.join(test_dir, 'cats')
 try:
   os.mkdir(test_cats_dir)
 except FileExistsError:
   pass
 
-
 test_dogs_dir = os.path.join(test_dir, 'dogs')
 try:
   os.mkdir(test_dogs_dir)
 except FileExistsError:
   pass
-
 
 # copy the first 1000 cat images into train_cats_dir
 fnames = {'cat.{}.jpg'.format(i) for i in range(1000)}
@@ -118,7 +111,6 @@ for fname in fnames:
   src = os.path.join(original_data_dir, fname)
   dst = os.path.join(test_dogs_dir, fname)
   shutil.copyfile(src,dst)
-
 
 # sanity check that we have the right number of files in each category
 print('training cat images: ', len(os.listdir(train_cats_dir)))
