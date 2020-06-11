@@ -79,7 +79,7 @@ history = model.fit(train_generator,
                     validation_data=validation_generator, 
                     validation_steps=50)
 
-model.save('cats_and_dogs_small_1.h5')
+model.save('cats_and_dogs_small_2.h5')
 
 # plot training history
 accuracy = history.history['acc']
