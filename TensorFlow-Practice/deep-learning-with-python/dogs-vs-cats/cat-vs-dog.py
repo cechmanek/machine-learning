@@ -51,7 +51,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 # preprocess and augment the images for training
 train_datagen = ImageDataGenerator(rescale=1.0/255,
                                     rotation_range=40, # range in degrees 0->180
-                                    width_shfit_range=0.2, # as a fraction of image size
+                                    width_shift_range=0.2, # as a fraction of image size
                                     height_shift_range=0.2,
                                     shear_range=0.2,
                                     zoom_range=0.2,
