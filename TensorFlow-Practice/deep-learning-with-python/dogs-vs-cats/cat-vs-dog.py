@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPool2D, Dropout
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.optimizers import RMSprop
 
 # manage data locations
 original_data_dir = os.path.join(os.getcwd(), 'train')
@@ -44,7 +45,7 @@ model.add(Dropout(0.5))
 model.add(Dense(512, activation='relu'))
 model.add(Dense(1, activation='sigmoid')) # sigmoid for binary classification
 
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='binary_crossentropy', optimizer=RMSprop(lr=1e-4), metrics=['accuracy'])
 
 model.summary()
 
@@ -88,7 +89,7 @@ for batch in train_generator:
   if i >= num_images:
     break
 
- images = batch[0]
+  images = batch[0]
   labels = batch[1]
   for image, label in zip(images, labels):
     plt.imshow(image)
