@@ -11,7 +11,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 # manage data locations
 original_data_dir = os.getcwd() + '/train'
 
-base_dir = os.getcwd() + '/dogs-vs-cats-small'
+base_dir = os.path.join(os.getcwd(), 'dogs-vs-cats-small')
 train_dir = os.path.join(base_dir, 'train')
 validation_dir = os.path.join(base_dir, 'validation')
 test_dir = os.path.join(base_dir, 'test')
