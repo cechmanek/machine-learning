@@ -90,14 +90,14 @@ val_loss = history.history['val_loss']
 epochs = range(1, len(accuracy) + 1)
 plt.figure()
 plt.title('training and validation accuracy')
-plt.plot(epochs, accuracy, 'bo', label='training accuracy')
+plt.plot(epochs, accuracy, 'b-', label='training accuracy')
 plt.plot(epochs, val_accuracy, 'ro', label='validation accuracy')
 plt.legend()
 
 plt.figure()
 plt.title('training and validation loss')
 plt.plot(epochs, loss, 'b-', label='training loss')
-plt.plot(epochs, val_loss, 'r-', label='validation loss')
+plt.plot(epochs, val_loss, 'ro', label='validation loss')
 plt.legend()
 
 plt.show()
