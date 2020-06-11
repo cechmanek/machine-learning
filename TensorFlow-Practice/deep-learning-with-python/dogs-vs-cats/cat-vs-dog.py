@@ -75,7 +75,7 @@ validation_generator = test_datagen.flow_from_directory(
 # generators yield batch sizes of 20 indefinitely, so 100 steps per epoch gives 2000 images per epoch 
 history = model.fit(train_generator, 
                     steps_per_epoch=100,
-                    epochs=30, 
+                    epochs=100, 
                     validation_data=validation_generator, 
                     validation_steps=50)
 
