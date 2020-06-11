@@ -1,4 +1,4 @@
 # don't track image files
 *.jpg
 # don't track trained model weights
-*.h5 # model weights
+*.h5
