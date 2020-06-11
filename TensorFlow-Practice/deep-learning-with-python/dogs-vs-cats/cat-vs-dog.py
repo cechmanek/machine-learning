@@ -5,7 +5,7 @@ following the example on page 134
 import os
 import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPool2D
+from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPool2D, Dropout
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 # manage data locations
 original_data_dir = os.getcwd() + '/train'
