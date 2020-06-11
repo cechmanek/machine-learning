@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPool2D, Dropout
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
 # manage data locations
 original_data_dir = os.getcwd() + '/train'
 
@@ -21,7 +22,7 @@ validation_dogs_dir = os.path.join(validation_dir, 'dogs')
 test_cats_dir = os.path.join(test_dir, 'cats')
 test_dogs_dir = os.path.join(test_dir, 'dogs')
 
-
+# define and compile model
 model = Sequential()
 
 model.add(Conv2D(32, (3,3), activation='relu', input_shape=(150,150,3)))
@@ -34,9 +35,6 @@ model.add(Conv2D(128, (3,3), activation='relu'))
 model.add(MaxPool2D((2,2)))
 
 model.add(Conv2D(128, (3,3), activation='relu')) 
-model.add(MaxPool2D((2,2)))
-
-model.add(Conv2D(32, (3,3), activation='relu')) 
 model.add(MaxPool2D((2,2)))
 
 model.add(Flatten())
@@ -61,7 +59,7 @@ train_datagen = ImageDataGenerator(rescale=1.0/255,
 test_datagen = ImageDataGenerator(rescale=1.0/255) # no need to synthesize test data, but we could
 
 train_generator = train_datagen.flow_from_directory(
-  directory=train_dir, # automatically figures out which image is which class based on sub folders
+  directory=train_dir, # automatically figures out which image class based on sub folders
   target_size=(150,150),
   batch_size=10, # jetson gpu memory is limited to batches of 10
   class_mode='binary') # assigns binary labels to images
