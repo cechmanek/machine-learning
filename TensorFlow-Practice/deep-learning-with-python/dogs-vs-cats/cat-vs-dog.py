@@ -53,13 +53,13 @@ test_datagen  = ImageDataGenerator(rescale=1.0/255)
 train_generator = train_datagen.flow_from_directory(
   directory=train_dir, # automatically figures out which image is which class based on sub folders
   target_size=(150,150),
-  batch_size=20,
+  batch_size=10, # jetson gpu memory is limited to batches of 10
   class_mode='binary') # assigns binary labels to images
 
 validation_generator = test_datagen.flow_from_directory(
   directory=validation_dir,
   target_size=(150,150),
-  batch_size=20,
+  batch_size=10,
   class_mode='binary')
 
 # generators yield batch sizes of 20 indefinitely, so 100 steps per epoch gives 2000 images per epoch 
