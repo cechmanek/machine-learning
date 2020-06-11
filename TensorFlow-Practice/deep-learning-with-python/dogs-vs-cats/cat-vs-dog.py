@@ -41,7 +41,7 @@ model.add(MaxPool2D((2,2)))
 
 model.add(Flatten())
 
-model.add(Droput(0.5))
+model.add(Dropout(0.5))
 
 model.add(Dense(512, activation='relu'))
 model.add(Dense(1, activation='sigmoid')) # sigmoid for binary classification
