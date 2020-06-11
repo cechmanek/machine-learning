@@ -47,8 +47,16 @@ model.add(Dense(1, activation='sigmoid')) # sigmoid for binary classification
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # preprocess and augment the images for training
-train_datagen  = ImageDataGenerator(rescale=1.0/255)
-test_datagen  = ImageDataGenerator(rescale=1.0/255)
+train_datagen = ImageDataGenerator(rescale=1.0/255,
+                                    rotation_range=40, # range in degrees 0->180
+                                    width_shfit_range=0.2, # as a fraction of image size
+                                    height_shift_range=0.2,
+                                    shear_range=0.2,
+                                    zoom_range=0.2,
+                                    horizontal_flip=True,
+                                    fill_mode='nearest')
+
+test_datagen = ImageDataGenerator(rescale=1.0/255) # no need to synthesize test data, but we could
 
 train_generator = train_datagen.flow_from_directory(
   directory=train_dir, # automatically figures out which image is which class based on sub folders
