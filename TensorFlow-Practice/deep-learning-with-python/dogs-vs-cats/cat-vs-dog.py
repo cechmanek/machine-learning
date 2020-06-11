@@ -9,7 +9,7 @@ from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPool2D, Dropout
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 # manage data locations
-original_data_dir = os.getcwd() + '/train'
+original_data_dir = os.path.join(os.getcwd(), 'train')
 
 base_dir = os.path.join(os.getcwd(), 'dogs-vs-cats-small')
 train_dir = os.path.join(base_dir, 'train')
@@ -46,6 +46,10 @@ model.add(Dense(1, activation='sigmoid')) # sigmoid for binary classification
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
+model.summary()
+
+_ = input('press enter key to continue')
+
 # preprocess and augment the images for training
 train_datagen = ImageDataGenerator(rescale=1.0/255,
                                     rotation_range=40, # range in degrees 0->180
@@ -70,12 +74,37 @@ validation_generator = test_datagen.flow_from_directory(
   batch_size=10,
   class_mode='binary')
 
-# generators yield batch sizes of 20 indefinitely, so 100 steps per epoch gives 2000 images per epoch 
+# view some of the training and validation iamges
+try:
+  num_images = int(input('enter the number of images you want to view '))
+except ValueError:
+  print('skipping viewing')
+  num_images = 0
+
+i = 0
+batch_num = 0
+label_dict = {0:'cat', 1:'dog'}
+for batch in train_generator:
+  if i >= num_images:
+    break
+
+ images = batch[0]
+  labels = batch[1]
+  for image, label in zip(images, labels):
+    plt.imshow(image)
+    plt.title('image {} from batch {}, labelled {}'.format(i, batch_num, label_dict[label]))
+    plt.show()
+    i += 1
+    if i >= num_images:
+      break
+  batch_num += 1
+
+# generators yield batches of 10 indefinitely, so 200 steps/epoch gives 2000 images per epoch 
 history = model.fit(train_generator, 
-                    steps_per_epoch=100,
+                    steps_per_epoch=200,
                     epochs=100, 
                     validation_data=validation_generator, 
-                    validation_steps=50)
+                    validation_steps=30)
 
 model.save('cats_and_dogs_small_2.h5')
 
