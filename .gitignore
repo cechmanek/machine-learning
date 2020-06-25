@@ -1,4 +1,8 @@
 # don't track image files
 *.jpg
+
 # don't track trained model weights
 *.h5
+
+# don't load all of the imdb review data
+TensorFlow-Practice/deep-learning-with-python/text-and-sequences/aclImdb/*
