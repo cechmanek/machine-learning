@@ -3,6 +3,8 @@ time series forecasting of jena climate data
 download the dataset via:
 wget https://s3.amazonaws.com/keras-datasets/jena_climate_2009_2016.csv.zip
 unzip https....
+
+NOTE: the deep recurrent nets take a day or more each to train
 '''
 
 
