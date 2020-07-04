@@ -254,20 +254,17 @@ plt.legend()
 #plt.show()
 
 # our last improvement is to use a bidirectional recurrent net
-print("training shallow bidirectional recurrent net with dropout")
+print("training shallow bidirectional recurrent net without dropout")
 model = Sequential()
-model.add(Bidirectional(GRU(32,
-                            dropout=0.1,
-                            recurrent_dropout=0.5, 
-                            input_shape=(None, float_data.shape[-1]),
-                            return_sequences=True) # return full sequence for intermediate layers
+model.add(Bidirectional(GRU(32),
+                        input_shape=(None, float_data.shape[-1]),
                        )
          )
 model.add(Dense(1))
 
 model.compile(loss='mae', optimizer=RMSprop())
 
-# train for twice as many epochs since we added dropout
+# train for twice as many epochs since we're using bidirectional layer
 history = model.fit(train_gen, steps_per_epoch=500, epochs=40, validation_data=validation_gen, validation_steps=val_steps//128)
 
 loss = history.history['loss']
