@@ -5,7 +5,7 @@
 *.h5
 
 # don't load all of the imdb review data
-TensorFlow-Practice/deep-learning-with-python/text-and-sequences/aclImdb/*
+TensorFlow-Practice/deep-learning-with-python/chapter-6/text-and-sequences/aclImdb/*
 
 # don't track the GloVe word embedding file
-TensorFlow-Practice/deep-learning-with-python/text-and-sequences/glove.6B*
+TensorFlow-Practice/deep-learning-with-python/chapter-6/text-and-sequences/glove.6B*
