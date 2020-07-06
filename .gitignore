@@ -1,3 +1,6 @@
+# don't track .swp files
+*.swp
+
 # don't track image files
 *.jpg
 
