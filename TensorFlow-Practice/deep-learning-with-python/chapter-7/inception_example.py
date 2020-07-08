@@ -8,19 +8,7 @@ Be sure to look at the graphical image on page 243
 from tensorflow.keras import Model
 from tensorflow.keras import layers
 
-# says can't concatenate because innner two dims are all different accross branches
 x = layers.Input(shape=(512,512,64,))# some 4D tensor, typically created by a convolutional filters 
-
-# says X is ndim=5
-#x = layers.Input(shape=(512,512,10,10,))# some 4D tensor, typically created by a convolutional filters 
-
-# says x is ndim=3
-#x = layers.Input(shape=(512,512,))# some 4D tensor, typically created by a convolutional filters 
-
-x = layers.Input(shape=(512,512,256))# some 4D tensor, typically created by a convolutional filters 
-
-
-print(x.shape)
 
 # all branches receive the same input tensor x
 branch_a = layers.Conv2D(128, 1, activation='relu', padding='same', strides=2)(x) # strides across spacial dimension
