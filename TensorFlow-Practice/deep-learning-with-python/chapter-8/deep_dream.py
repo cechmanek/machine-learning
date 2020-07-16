@@ -146,6 +146,8 @@ for shape in successive_shapes:
     img += lost_detail # add back in detail we lost during scale up
 
     shrunk_original_image = resize_image(original_image, shape)
-    save_image(img, filename='final_dream.png')
+    save_image(img, filename='dream_at_scale_' + str(shape) + '.png')
+
+save_image(img, filename='final_dream.png')
 
 
