@@ -1,8 +1,11 @@
 
 import gym
+from cartpole_action_wrapper import RandomActionWrapper
 
 if __name__ == "__main__":
   env = gym.make('CartPole-v0')   
+  env = gym.wrappers.Monitor(env, 'output', force=True)
+
   observation = env.reset() # must always call after we initilizse a gym environment
   
   # set up agent params
