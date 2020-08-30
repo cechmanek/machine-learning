@@ -162,7 +162,7 @@ if __name__ == "__main__":
 
       # train generator
       gen_optimizer.zero_grad()
-      dis_output_v = net_discr(gen_output_v)
+      dis_output_v = net_discr(gen_output_v) # propagate error from disciminator into generator
       gen_loss_v = objective(dis_output_v, true_labels_v)
       gen_loss_v.backward()
       gen_optimizer.step()
