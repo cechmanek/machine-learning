@@ -21,3 +21,6 @@ output/
 
 # don't track pycache
 __pycache__
+
+# don't track tensorboard recordings
+runs/
