@@ -103,6 +103,7 @@ if __name__ == "__main__":
     reward = 0.0
     for _ in range(TEST_EPISODES):
       reward += my_agent.play_episode(test_env)
+      reward /= TEST_EPISODES
       writer.add_scalar('reward', reward, iteration)
       if reward > best_reward:
         print("Best reward updated %.3f -> %.3f" % (best_reward, reward))
