@@ -19,20 +19,21 @@ class Agent():
     self.state_values = collections.defaultdict(float) # key: val -> state_id: state_value
 
   def play_n_random_steps(self, count):
-    # choose a random action and take it
-    action = self.env.action_space.sample()
+    for _ in range(count):
+      # choose a random action and take it
+      action = self.env.action_space.sample()
 
-    new_state, reward, is_done, _ = self.env.step(action)
-    # we only get reward on terminal state and it's always 1 so no need to sum then average rewards
-    self.rewards[(self.state, action, new_state)] = reward 
+      new_state, reward, is_done, _ = self.env.step(action)
+      # we only get reward on terminal state and it's always 1 so no need to sum then average rewards
+      self.rewards[(self.state, action, new_state)] = reward 
 
-    # track transition counts because they're stochastic. need to average and estimate later 
-    self.transitions[(self.state, action)] [new_state] += 1  # key=(S0,A), val=dict(S1:count)
+      # track transition counts because they're stochastic. need to average and estimate later 
+      self.transitions[(self.state, action)] [new_state] += 1  # key=(S0,A), val=dict(S1:count)
 
-    if is_done:
-      self.state = self.env.reset()
-    else:
-      self.state = new_state
+      if is_done:
+        self.state = self.env.reset()
+      else:
+        self.state = new_state
 
   def calculate_action_value(self, state, action):
     action_value = 0.0
@@ -42,7 +43,7 @@ class Agent():
 
     for new_state, count in self.transitions[(state, action)].items():
       reward = self.rewards[(state, action, new_state)]
-      action_value += count/total_transitions * (reward + GAMMA*self.state_values[new_state])
+      action_value += (count/total_transitions) * (reward + GAMMA*self.state_values[new_state])
       # value is probability of getting to new_state * (reward + GAMMA*new_state_value)
     return action_value
   
@@ -103,11 +104,14 @@ if __name__ == "__main__":
     reward = 0.0
     for _ in range(TEST_EPISODES):
       reward += my_agent.play_episode(test_env)
-      reward /= TEST_EPISODES
-      writer.add_scalar('reward', reward, iteration)
-      if reward > best_reward:
-        print("Best reward updated %.3f -> %.3f" % (best_reward, reward))
-        best_reward = reward
+    reward /= TEST_EPISODES
+
+    writer.add_scalar('reward', reward, iteration)
+
+    if reward > best_reward:
+      print("Best reward updated %.3f -> %.3f" % (best_reward, reward))
+      best_reward = reward
+
     if reward > 0.80:
       print("Solved in %d iterations!" % iteration)
       break
