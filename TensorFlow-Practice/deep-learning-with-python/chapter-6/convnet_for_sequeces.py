@@ -20,9 +20,9 @@ x_test = sequence.pad_sequences(x_test, maxlen=max_length)
 
 model = Sequential()
 model.add(Embedding(max_features, 128, input_length=max_length))
-model.add(Conv1D(32, 7, activation='relu')) # 32 filters of sizie 7 each
+model.add(Conv1D(32, 7, activation='relu')) # 32 filters of size 7 each
 model.add(MaxPool1D(5)) # pool over a window of size 5
-model.add(Conv1D(32, 7, activation='relu')) # 32 filters of sizie 7 each
+model.add(Conv1D(32, 7, activation='relu')) # 32 filters of size 7 each
 model.add(GlobalMaxPool1D())
 model.add(Dense(1))
 
