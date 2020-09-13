@@ -80,3 +80,13 @@ class ProcessFrame84(gym.Wrapper):
     x_t = np.reshape(x_t, [84, 81, 1]) # reshape to 84 by 84 pixels
     return x_t.astype(np.uint8)
 
+
+class ImageToTorch(gym.Wrapper):
+  def __init__(self, env=None):
+    super.__init__(env)
+    old_shape = self.observation_space.shape
+    # change from height-width-color to color-height-width which is what Torch uses
+    self.observation_space = gym.spaces.Box(low=0.0, high=1.0, shape=(old_shape,[2], old_shape[0], old_shape[1]), dtype=np.float32)
+
+  def observation(self, observation):
+    return np.moveaxis(observation, 2, 0)
