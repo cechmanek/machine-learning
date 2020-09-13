@@ -54,3 +54,29 @@ class MaxAndSkipEnv(gym.Wrapper):
     observation = self.env.reset()
     self.observation_buffer.append(obs)
     return observation
+
+
+class ProcessFrame84(gym.Wrapper):
+  def __init__(self, env=None):
+    super__init__(env)
+    self.observation_space = gym.spaces.Box(low=0, high=255, shape=(84,84,1), dtype=np.uint8)
+
+  def observation(self, obs):
+    return ProcessFrame84.process(obs)
+
+  @staticmethod
+  def process(frame):
+    if frame.size == 210 * 160 * 3:
+      img = np.reshape(frame, [210, 160, 3]).astype(np.float32)
+    elif frame.size == 250 * 160 * 3:
+      img = np.reshape(frame, [250, 160, 3]).astype(np.float32)
+    else:
+      raise EnvironmentError('unkown resolution')
+    # convert to grayscale, but weighted to better match human perception
+    img = img[:, :, 0] * 0.299 + img[:, :, 1] * 0.587 + img[:, :, 2] * .0114
+
+    resized_screen = cv2.resize(img, (84,110), interpolation=cv2.INTER_AREA)
+    x_t = resized_screen[18:102, :] # crop top & bottom of screen as it's useless. This saves memory
+    x_t = np.reshape(x_t, [84, 81, 1]) # reshape to 84 by 84 pixels
+    return x_t.astype(np.uint8)
+
