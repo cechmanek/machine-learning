@@ -56,7 +56,7 @@ class MaxAndSkipEnv(gym.Wrapper):
     return observation
 
 
-class ProcessFrame84(gym.Wrapper):
+class ProcessFrame84(gym.ObservationWrapper):
   def __init__(self, env=None):
     super__init__(env)
     self.observation_space = gym.spaces.Box(low=0, high=255, shape=(84,84,1), dtype=np.uint8)
@@ -81,7 +81,7 @@ class ProcessFrame84(gym.Wrapper):
     return x_t.astype(np.uint8)
 
 
-class ImageToTorch(gym.Wrapper):
+class ImageToTorch(gym.ObservationWrapper):
   def __init__(self, env=None):
     super.__init__(env)
     old_shape = self.observation_space.shape
