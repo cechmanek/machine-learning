@@ -26,7 +26,7 @@ class DQN(nn.Module):
 
   def forward(self, x):
     conv_out = self.conv(x).view(x.size()[0], -1) # flatten output of conv layers
-    return self.fc(conv_out)
+    return self.fc(conv_out) # return Q values of all actions in one pass
     
   def get_conv_out(self, shape): # get the size of the flattened output
     out = self.conv(torch.zeros(1, *shape)) # some dummy input just to get output of correct size
