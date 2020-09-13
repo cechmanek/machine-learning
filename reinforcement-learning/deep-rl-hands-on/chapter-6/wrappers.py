@@ -98,6 +98,7 @@ class ScaledFloatFrame(gym.ObservationWrapper):
     return np.array(obs).astype(np.float32) / 255.0
 
 
+# put several consecutive image frames into one observation, so agent can learn temporal dynamics
 class BufferWrapper(gym.ObservationWrapper):
   def __init__(self, env, n_steps, dtype=np.float32):
     super(BufferWrapper, self).__init__(env)
