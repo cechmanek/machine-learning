@@ -83,7 +83,7 @@ class ProcessFrame84(gym.ObservationWrapper):
 
 class ImageToTorch(gym.ObservationWrapper):
   def __init__(self, env=None):
-    super.__init__(env)
+    super().__init__(env)
     old_shape = self.observation_space.shape
     # change from height-width-color to color-height-width which is what Torch uses
     self.observation_space = gym.spaces.Box(low=0.0, high=1.0, shape=(old_shape,[2], old_shape[0],
