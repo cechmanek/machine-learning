@@ -58,7 +58,7 @@ class MaxAndSkipEnv(gym.Wrapper):
 
 class ProcessFrame84(gym.ObservationWrapper):
   def __init__(self, env=None):
-    super__init__(env)
+    super().__init__(env)
     self.observation_space = gym.spaces.Box(low=0, high=255, shape=(84,84,1), dtype=np.uint8)
 
   def observation(self, obs):
