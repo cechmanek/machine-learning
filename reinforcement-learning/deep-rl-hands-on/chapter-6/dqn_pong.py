@@ -94,10 +94,49 @@ def calculate_loss(batch, net, target_net, device='cpu'):
   done_mask = torch.ByteTensor(dones).to(device)
 
   state_action_values = net(states_tensor).gather(1, actions_tensor.unsqueeze(-1)).squeeze(-1)
-  next_state_values = target_net(next_states_tensor).max(1)[0]
-  next_state_values[done_mask] = 0.0
-  next_state_values = next_state_values.detach()
+  next_state_values = target_net(next_states_tensor).max(1)[0] # .max() returns max and argmax
+  next_state_values[done_mask] = 0.0 # if at terminal state we need to manually set next_state_val=0
+  next_state_values = next_state_values.detach() # detach so we don't back prop through bellman eq
 
   expected_state_action_values = rewards_tensor + next_state_values * GAMMA
 
   return nn.MSELoss()(state_action_values, expected_state_action_values)
+
+
+  # now train our agent
+  if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--cuda", default=False, action="store_true", help="Enable cuda")
+    parser.add_argument("--env", default=DEFAULT_ENV_NAME,
+                        help="Name of the environment, default=" + DEFAULT_ENV_NAME)
+    parser.add_argument("--reward", type=float, default=MEAN_REWARD_BOUND,
+                        help="Mean reward boundary for stop of training, default=%.2f" % MEAN_REWARD_BOUND)
+    args = parser.parse_args()
+    device = torch.device("cuda" if args.cuda else "cpu")
+
+    # launch our pong environment with all the custom wrappers we defined
+    env = wrappers.make_env(args.env)
+
+    # create two networks
+    # one that we use for getting subsequent state values, but doesn't change every iteration
+    # this helps stabilize training
+    net = dqn_model.DQN(env.observation_space.shape, env.action_space.n).to(device)
+    target_net = dqn_model.DQN(env.observation_space.shape, env.action_space.n).to(device)
+
+    writer = SummaryWriter(comment="-" + args.env)
+    
+    print('our deep Q network looks like:')
+    print(net)
+
+    # initialize replay buffer and agent
+    buffer = ExperienceBuffer(REPLAY_SIZE)
+    agent = Agent(env, buffer)
+    epsilon = EPSILON_START
+
+    # initialize our optimizer
+    optimizer = optim.Adam(net.parameters(), lr=LEARNING_RATE)
+    total_rewards = []
+    frame_idx = 0
+    ts_frame = 0
+    ts = time.time()
+    best_mean_reward = None
