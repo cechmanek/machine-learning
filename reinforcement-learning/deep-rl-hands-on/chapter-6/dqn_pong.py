@@ -1,6 +1,9 @@
 # training our deep Q-learning network to play Atari pong
 # this file holds 2 identical deep networks, and periodically syncs their weights
 # this helps to stabilize training
+import wrappers
+import dqn_model
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
