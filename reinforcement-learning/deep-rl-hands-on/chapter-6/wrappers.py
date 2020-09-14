@@ -122,6 +122,6 @@ def make_env(env_name):
   env = MaxAndSkipEnv(env)
   env = FireResetEnv(env)
   env = ProcessFrame84(env)
-  env = ImageToPyTorch(env)
+  env = ImageToTorch(env)
   env = BufferWrapper(env, 4)
   return ScaledFloatFrame(env)
