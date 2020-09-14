@@ -184,7 +184,7 @@ if __name__ == "__main__":
 
     optimizer.zero_grad()
     batch = buffer.sample(BATCH_SIZE)
-    loss_t = calc_loss(batch, net, target_net, device=device)
+    loss_t = calculate_loss(batch, net, target_net, device=device)
     loss_t.backward()
     optimizer.step()
 
