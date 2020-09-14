@@ -13,7 +13,7 @@ class FireResetEnv(gym.Wrapper):
   def __init__(self, env=None):
     super().__init__(env)
     assert env.unwrapped.get_action_meanings()[1] == 'FIRE'
-    assert len(env.unnwrapped.get_actino_meanings()) >= 3
+    assert len(env.unwrapped.get_actino_meanings()) >= 3
 
   def step(self, action):
     return self.env.step(action)
