@@ -82,3 +82,22 @@ class Agent:
       done_reward = self.total_reward
       self._reset()
     return done_reward
+
+
+def calculate_loss(batch, net, target_net, device='cpu'):
+  states, actions, rewards, dones, next_states = batch
+
+  states_tensor = torch.tensor(states).to(device)
+  next_states_tensor = torch.tensor(next_states).to(device)
+  actions_tensor = torch.tensor(actions).to(device)
+  rewards_tensor = torch.tensor(rewards).to(device)
+  done_mask = torch.ByteTensor(dones).to(device)
+
+  state_action_values = net(states_tensor).gather(1, actions_tensor.unsqueeze(-1)).squeeze(-1)
+  next_state_values = target_net(next_states_tensor).max(1)[0]
+  next_state_values[done_mask] = 0.0
+  next_state_values = next_state_values.detach()
+
+  expected_state_action_values = rewards_tensor + next_state_values * GAMMA
+
+  return nn.MSELoss()(state_action_values, expected_state_action_values)
