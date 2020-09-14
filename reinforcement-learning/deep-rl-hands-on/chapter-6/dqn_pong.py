@@ -54,7 +54,7 @@ class ExperienceBuffer():
   
 
 class Agent:
-  def __init__(self, env, exp_buffer):
+  def __init__(self, env, experience_buffer):
     self.env = env
     self.experience_buffer = experience_buffer
     self._reset()
