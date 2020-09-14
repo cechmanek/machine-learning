@@ -52,7 +52,7 @@ class MaxAndSkipEnv(gym.Wrapper):
   def reset(self):
     self.observation_buffer.clear()
     observation = self.env.reset()
-    self.observation_buffer.append(obs)
+    self.observation_buffer.append(observation)
     return observation
 
 
