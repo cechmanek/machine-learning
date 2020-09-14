@@ -98,7 +98,7 @@ def calculate_loss(batch, net, target_net, device='cpu'):
   rewards_tensor = torch.tensor(rewards).to(device)
   done_mask = torch.ByteTensor(dones).to(device)
 
-  state_action_values = net(states_tensor).gather(1, actions_tensor.unsqueeze(-1)).squeeze(-1)
+  state_action_values = net(states_tensor).gather(1, actions_tensor.unsqueeze(-1).type(torch.int64)).squeeze(-1)
   next_state_values = target_net(next_states_tensor).max(1)[0] # .max() returns max and argmax
   next_state_values[done_mask] = 0.0 # if at terminal state we need to manually set next_state_val=0
   next_state_values = next_state_values.detach() # detach so we don't back prop through bellman eq
