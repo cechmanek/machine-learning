@@ -101,7 +101,7 @@ class ScaledFloatFrame(gym.ObservationWrapper):
 # put several consecutive image frames into one observation, so agent can learn temporal dynamics
 class BufferWrapper(gym.ObservationWrapper):
   def __init__(self, env, n_steps, dtype=np.float32):
-    super(BufferWrapper, self).__init__(env)
+    super().__init__(env)
     self.dtype = dtype
     old_space = env.observation_space
     self.observation_space = gym.spaces.Box(old_space.low.repeat(n_steps, axis=0),
