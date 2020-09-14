@@ -77,7 +77,7 @@ class ProcessFrame84(gym.ObservationWrapper):
 
     resized_screen = cv2.resize(img, (84,110), interpolation=cv2.INTER_AREA)
     x_t = resized_screen[18:102, :] # crop top & bottom of screen as it's useless. This saves memory
-    x_t = np.reshape(x_t, [84, 81, 1]) # reshape to 84 by 84 pixels
+    x_t = np.reshape(x_t, [84, 84, 1]) # reshape to 84 by 84 pixels
     return x_t.astype(np.uint8)
 
 
