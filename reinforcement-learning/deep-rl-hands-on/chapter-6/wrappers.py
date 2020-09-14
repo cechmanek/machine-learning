@@ -32,7 +32,7 @@ class FireResetEnv(gym.Wrapper):
 # so skip a few frames between changing actions
 class MaxAndSkipEnv(gym.Wrapper):
   def __init__(self, env=None, skip=4):
-    super.__init__(env)
+    super().__init__(env)
     self.observation_buffer = collections.deque(maxlen=2) # observations are screen images
     self.skip = skip 
 
