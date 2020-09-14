@@ -15,7 +15,7 @@ import collections
 
 import numpy as np
 
-DEFAULT_ENV_NAME = "PongNoFrameSkip-v4"
+DEFAULT_ENV_NAME = "PongNoFrameskip-v4"
 MEAN_REWARD_BOUND = 19.5 # average score over last 100 games to consider game solved
 
 GAMMA = 0.99 # discount factor in Bellman equations
