@@ -1,0 +1,26 @@
+# don't track .swp files
+*.swp
+
+# don't track image files
+*.jpg
+*.png
+# don't track trained model weights
+*.h5
+
+# don't load all of the imdb review data
+TensorFlow-Practice/deep-learning-with-python/chapter-6/text-and-sequences/aclImdb/*
+
+# don't track the GloVe word embedding file
+TensorFlow-Practice/deep-learning-with-python/chapter-6/text-and-sequences/glove.6B*
+
+# don't track general data directories
+data/
+
+# don't track experimental output and results
+output/
+
+# don't track pycache
+__pycache__
+
+# don't track tensorboard recordings
+runs/
