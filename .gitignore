@@ -4,6 +4,7 @@
 # don't track image files
 *.jpg
 *.png
+
 # don't track trained model weights
 *.h5
 
@@ -24,3 +25,6 @@ __pycache__
 
 # don't track tensorboard recordings
 runs/
+
+# don't track logs
+*.log
