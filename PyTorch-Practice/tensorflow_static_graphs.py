@@ -37,7 +37,7 @@ new_w2 = w2.assign(w2 - learning_rate * grad_w2)
 
 # above we have been defining the graph, but have not executed anyting yet
 # now we will exectute code through our graph
-with ft.Session() as sess:
+with tf.Session() as sess:
   # run through the graph once to initialize our Variables w1 and w2
   sess.run(tf.global_variables_initializer())
 
