@@ -1,4 +1,4 @@
-# example using torch nn neural network module equivalent to warm_up_numpy.py example
+# example using torch.nn neural network module equivalent to warm_up_numpy.py example
 
 import torch
 
