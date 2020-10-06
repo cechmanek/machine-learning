@@ -10,7 +10,7 @@ import numpy as np
 
 class DQN(nn.Module):
   def __init__(self, input_shape, num_actions):
-    super.__init__()
+    super().__init__()
 
     self.conv = nn.Sequential(
       nn.Conv2d(input_shape[0], 32, kernel_size=8, stride=4),
@@ -38,3 +38,4 @@ def forward(self, x):
   fx = x.float() / 256
   conv_out = self.conv(fx).view(fx.size()[0],-1) # flatten output of conv layers
   return self.dense(conv_out)
+
