@@ -90,6 +90,7 @@ def calc_loss_dqn(batch, net, target_net, gamma, device="cpu"):
   actions_v = torch.tensor(actions).to(device)
   rewards_v = torch.tensor(rewards).to(device)
   done_mask = torch.ByteTensor(dones).to(device)
+  #TODO change done_mask to dtype=torch.bool as indexing via bytes on line 96 is now depricated
 
   state_action_values = net(states_v).gather(1, actions_v.unsqueeze(-1)).squeeze(-1)
   next_state_values = target_net(next_states_v).max(1)[0]
