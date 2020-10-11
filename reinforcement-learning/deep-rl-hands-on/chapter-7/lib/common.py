@@ -48,7 +48,7 @@ HYPERPARAMS = {
     'gamma':            0.99,
     'batch_size':       32
   },
-  'invaders': {
+  'invaders': { # I think that these params are mistakenly identical to breakout params
     'env_name': "SpaceInvadersNoFrameskip-v4",
     'stop_reward': 500.0,
     'run_name': 'breakout',
