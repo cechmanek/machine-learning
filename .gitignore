@@ -17,6 +17,9 @@ TensorFlow-Practice/deep-learning-with-python/chapter-6/text-and-sequences/glove
 # don't track general data directories
 data/
 
+# don't track output data files
+*.dat
+
 # don't track experimental output and results
 output/
 
