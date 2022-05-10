@@ -83,7 +83,7 @@ def train(dqn, optimizer):
     #randomly choose which prior experiences to train on
     indices = np.random.choice(len(dqn.experiences), BATCH_SIZE, replace=False)
     for i, index in enumerate(indices):
-      ##state, action, reward, next_state, next_action, done = exp
+      ##state, action, reward, next_state, done = exp
       state, action, reward, next_state, done = dqn.experiences[index]
       states[i] = torch.tensor(state)
       actions[i] = torch.tensor(action)
