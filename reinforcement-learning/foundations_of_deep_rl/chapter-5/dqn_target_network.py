@@ -1,4 +1,4 @@
-# implementation of DQN algorithm with target network, uses Boltzman exploration, not epsilon-greedy
+# implementation of DQN algorithm with target network, uses Boltzmann exploration, not epsilon-greedy
 # from "Foundations of Deep Reinforcement Learning", see page 105
 # for comparison to standard DQN see ../chapter-4/dqn.py
 from torch.utils.data import WeightedRandomSampler
@@ -37,15 +37,15 @@ class DQN(nn.Module):
     return self.model(x)
 
   def act(self, state):
-    # Boltzman policy
+    # Boltzmann policy
     # this is a soft-max on the raw Q values, with a tau anealling factor that promotes exploration
     x = torch.from_numpy(state.astype(np.float32)) # convert to torch tensor
     q_values = self.forward(x) # forward pass
-    boltzman = nn.Softmax()
-    boltzman_action_probabilities = boltzman(q_values/self.tau)
+    boltzmann = nn.Softmax()
+    boltzmann_action_probabilities = boltzmann(q_values/self.tau)
 
     # now take a weighted random sample from these probabilities to determine which action to take
-    action = WeightedRandomSampler(boltzman_action_probabilities, 1)
+    action = WeightedRandomSampler(boltzmann_action_probabilities, 1)
     return list(action)[0]
 
     '''
