@@ -145,7 +145,7 @@ def main():
         dqn.reset_buffers()
         all_losses.append(loss)
 
-    if episode & TARGET_NET_UPDATE_RATE == 0:
+    if episode % TARGET_NET_UPDATE_RATE == 0:
         #set target_dqn.parameters = dqn.parameters # target_dqn won't change every train step, so is more stable
         target_dqn.load_state_dict(dqn.state_dict(), strict=True)
 
