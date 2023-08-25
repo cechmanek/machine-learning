@@ -19,9 +19,9 @@ class Agent():
   def sample_env(self):
     action = self.env.action_space.sample()
     old_state = self.state
-    new_state, reward, is_done, _ = self.env.step(action)
+    new_state, reward, terminated, truncated, _ = self.env.step(action)
 
-    if is_done:
+    if terminated or truncated:
       self.state = self.env.reset()
     else:
       self.state = new_state
@@ -60,10 +60,10 @@ class Agent():
     state =env.reset()
     while True:
       best_value, best_action = self.best_value_and_action(state)
-      new_state, reward, is_done, _ = env.step(best_action)
+      new_state, reward, terminated, truncated, _ = env.step(best_action)
       state = new_state
       total_reward += reward
-      if is_done:
+      if terminated or truncated:
         break
       
     return total_reward

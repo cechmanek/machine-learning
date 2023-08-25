@@ -104,13 +104,13 @@ def iterate_batches(env, batch_size=BATCH_SIZE):
 
   while True:
     e = next(env_gen)
-    obs, reward, is_done, _ =  e.step(e.action_space.sample()) # random action
+    obs, reward, terminated, truncated, _ =  e.step(e.action_space.sample()) # random action
     if np.mean(obs) > 0.01: # to stop random all-black screens in games
       batch.append(obs)
     if len(batch) == batch_size:
       batch_np = np.array(batch, dtype=np.float32) * 2.0/255.0 - 1.0
       yield torch.tensor(batch_np)
-    if is_done:
+    if terminated or truncated:
       e.reset()
 
 

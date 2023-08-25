@@ -20,11 +20,11 @@ class FireResetEnv(gym.Wrapper):
   
   def reset(self):
     self.env.reset()
-    obs, reward, is_done, _ = self.env.step(1) # press 'Fire' as first action always
-    if is_done:
+    obs, reward, terminated, truncated, _ = self.env.step(1) # press 'Fire' as first action always
+    if terminated or truncated:
       self.env.reset()
-    obs, reward, is_done, _ = self.env.step(2) # other corner case that some atari games have
-    if is_done:
+    obs, reward, terminated, truncated, _ = self.env.step(2) # other corner case that some atari games have
+    if terminated or truncated:
       self.env.reset()
     return obs
 
@@ -38,16 +38,16 @@ class MaxAndSkipEnv(gym.Wrapper):
 
   def step(self, action):
     total_reward = 0.0
-    is_done = False
+    terminated = False
     for _ in range(self.skip): # repeat the same action a given number of frames
-      observation, reward, is_done, info = self.env.step(action)
+      observation, reward, terminated, truncated, info = self.env.step(action)
       self.observation_buffer.append(observation)
       total_reward += reward
-      if is_done:
+      if terminated or truncated:
        break 
     # to solve screen flickering take the max pixel values of our observations
     max_frame = np.max(np.stack(self.observation_buffer), axis=0)
-    return (max_frame, total_reward, is_done, info)
+    return (max_frame, total_reward, (terminated or truncated), info)
 
   def reset(self):
     self.observation_buffer.clear()

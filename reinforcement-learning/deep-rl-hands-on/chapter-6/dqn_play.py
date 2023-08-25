@@ -46,10 +46,10 @@ if __name__ == "__main__":
     q_values = net(state_tensor).data.numpy()[0]
     action = np.argmax(q_values)
     c[action] += 1
-    state, reward, done, _ = env.step(action)
+    state, reward, terminated, truncated, _ = env.step(action)
     total_reward += reward
 
-    if done:
+    if terminated or truncated:
       break
 
     if args.visualize:

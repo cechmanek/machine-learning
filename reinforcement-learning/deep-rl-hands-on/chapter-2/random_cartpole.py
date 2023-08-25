@@ -14,12 +14,12 @@ if __name__ == "__main__":
 
   while True:
     action = env.action_space.sample() # random action selected
-    observation, reward, done, details = env.step(action)
+    observation, reward, terminated, truncated, details = env.step(action)
 
     # ignore observations for now
     total_reward += reward
     total_steps += 1
-    if done:
+    if terminated or truncated:
       break
 
   print('Episode done in %d steps, total reward of %.2f' %(total_steps, total_reward))

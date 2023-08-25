@@ -76,14 +76,14 @@ class Agent:
       action = int(action_tensor.item())
 
     # do step in the environment
-    new_state, reward, is_done, _ = self.env.step(action)
+    new_state, reward, terminated, truncated, _ = self.env.step(action)
     self.total_reward += reward
 
     #add this experience to our replay buffer
-    exp = Experience(self.state, action, reward, is_done, new_state)
+    exp = Experience(self.state, action, reward, (terminated or truncated), new_state)
     self.experience_buffer.append(exp)
     self.state = new_state
-    if is_done:
+    if terminated or truncated:
       done_reward = self.total_reward
       self._reset()
     return done_reward

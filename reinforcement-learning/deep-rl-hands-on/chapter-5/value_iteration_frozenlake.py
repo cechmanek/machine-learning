@@ -23,14 +23,14 @@ class Agent():
       # choose a random action and take it
       action = self.env.action_space.sample()
 
-      new_state, reward, is_done, _ = self.env.step(action)
+      new_state, reward, terminated, truncated, _ = self.env.step(action)
       # we only get reward on terminal state and it's always 1 so no need to sum then average rewards
       self.rewards[(self.state, action, new_state)] = reward 
 
       # track transition counts because they're stochastic. need to average and estimate later 
       self.transitions[(self.state, action)] [new_state] += 1  # key=(S0,A), val=dict(S1:count)
 
-      if is_done:
+      if terminated or truncated:
         self.state = self.env.reset()
       else:
         self.state = new_state
@@ -65,14 +65,14 @@ class Agent():
     state = env.reset() # use a new env as we don't know what state self.env is in
     while True:
       action = self.select_action(state)
-      new_state, reward, is_done, _ = env.step(action)
+      new_state, reward, terminated, truncated, _ = env.step(action)
       total_reward += reward
 
       # we can still learn while following our good policy, so we may as well
       self.rewards[(state, action, new_state)] = reward
       self.transitions[(state, action)][new_state] += 1
 
-      if is_done:
+      if terminated or truncated:
         break
       state = new_state
     return total_reward

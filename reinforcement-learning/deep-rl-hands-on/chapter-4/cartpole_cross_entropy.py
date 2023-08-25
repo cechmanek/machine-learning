@@ -42,11 +42,11 @@ def iterate_batches(env, net, batch_size):
 
     # choose an action randomly, but weighted by probabilities
     action = np.random.choice(len(action_probs), p=action_probs)
-    next_obs, reward, is_done, _ = env.step(action)
+    next_obs, reward, terminated, truncated , _ = env.step(action)
     episode_reward += reward
     episode_steps.append(EpisodeStep(observation=obs, action=action))
 
-    if is_done: # finished one episode, so append it and get ready for next
+    if terminated or truncated: # finished one episode, so append it and get ready for next
       batch.append(Episode(reward=episode_reward, steps=episode_steps))
       # reset things for next of episode
       episode_reward = 0.0
