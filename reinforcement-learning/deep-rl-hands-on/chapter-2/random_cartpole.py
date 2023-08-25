@@ -1,5 +1,5 @@
 
-import gym
+import gymnasium as gym
 from cartpole_action_wrapper import RandomActionWrapper
 
 if __name__ == "__main__":

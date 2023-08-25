@@ -1,5 +1,5 @@
 # modified dqn model using PTAN library, now implementing n-step Bellman update
-import gym
+import gymnasium as gym
 import ptan
 import argparse
 import torch

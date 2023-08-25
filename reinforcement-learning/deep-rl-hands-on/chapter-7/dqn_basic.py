@@ -1,5 +1,5 @@
 # equivalent logic to that implemented in Chapter 6 DQN code, but now using PTAN library
-import gym
+import gymnasium as gym
 import ptan
 import argparse
 import torch

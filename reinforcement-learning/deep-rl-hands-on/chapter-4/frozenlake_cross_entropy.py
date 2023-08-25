@@ -1,6 +1,6 @@
 # using the cross-entropy method to learn to navigate a slippery frozen lake
 
-import gym
+import gymnasium as gym
 import random
 from collections import namedtuple
 import numpy as np

@@ -1,8 +1,8 @@
 # gym environment wrapper around Atari pong
 
 import cv2
-import gym
-import gym.spaces
+import gymnasium as gym
+import gymnasium.spaces
 import numpy as np
 import collections
 

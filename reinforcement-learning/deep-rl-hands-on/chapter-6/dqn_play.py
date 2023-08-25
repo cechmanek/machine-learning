@@ -1,7 +1,7 @@
 # simple script to visualize our Deep Q-network that learned to play pong
 # run from command line via:
 # python dqn_play.py --model PongNoFrameskip-v4-best.dat
-import gym
+import gymnasium as gym
 import time
 import argparse
 import numpy as np

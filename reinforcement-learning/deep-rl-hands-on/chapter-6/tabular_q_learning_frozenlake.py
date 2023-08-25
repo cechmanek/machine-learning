@@ -1,7 +1,7 @@
 # using tabular q-learing on frozenlake environment.
 # only learn q values for states we encounter, not all possible states
 
-import gym
+import gymnasium as gym
 import collections
 from torch.utils.tensorboard import SummaryWriter
 

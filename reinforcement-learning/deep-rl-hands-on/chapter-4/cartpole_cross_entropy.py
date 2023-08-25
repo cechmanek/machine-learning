@@ -1,6 +1,6 @@
 # using the cross-entropy method to learn to balance cartpole environment
 
-import gym
+import gymnasium as gym
 from collections import namedtuple
 import numpy as np
 

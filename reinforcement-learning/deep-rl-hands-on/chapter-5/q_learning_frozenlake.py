@@ -1,5 +1,5 @@
 # using action value iteration and the bellman optimality equation to solve frozen lake environment.
-import gym
+import gymnasium as gym
 import collections
 from torch.utils.tensorboard import SummaryWriter
 
