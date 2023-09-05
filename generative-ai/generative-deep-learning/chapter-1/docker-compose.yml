@@ -1,0 +1,3 @@
+
+environment:
+  - TENSORFLOW_MODEL=${ls}
