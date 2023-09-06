@@ -24,3 +24,8 @@ RUN ["python", "my_model.py"]
 
 # To avoid this, run the container by specifying your user's userid:
 # $ docker run -u $(id -u):$(id -g) args...
+
+
+# Use the docker cp command to copy the file from the container to your local machine.
+# The basic syntax is as follows:
+# docker cp <container_id>:/path/to/file/on/container /path/to/destination/on/host
